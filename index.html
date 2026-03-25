@@ -4,53 +4,266 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GlossaryKit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <h1>GlossaryKit</h1>
-      <p>Your personal technical glossary manager</p>
-    </header>
+    <!-- Background grid (same as Style Guard) -->
+    <div class="bg-grid" aria-hidden="true"></div>
 
-    <main>
-      <section class="add-section">
-        <h2>Add a Term</h2>
-        <input
-          type="text"
-          id="term-input"
-          placeholder="Term (e.g. API, Endpoint, Payload)"
-          autocomplete="off"
-        />
-        <textarea
-          id="definition-input"
-          placeholder="Definition..."
-          rows="4"
-        ></textarea>
-        <button id="add-btn">Add Term</button>
-      </section>
+    <div class="app-wrapper">
+      <!-- ── Header ── -->
+      <header class="site-header">
+        <div class="header-inner">
+          <div class="brand">
+            <div class="brand-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6h16M4 10h10M4 14h12M4 18h8"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="brand-name">
+                Glossary<span class="brand-accent">Kit</span>
+              </div>
+              <div class="brand-tagline">// technical glossary manager</div>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="meta-badge">v1.0</span>
+            <span class="meta-badge meta-badge--outline">localStorage</span>
+          </div>
+        </div>
+      </header>
 
-      <section class="search-section">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search terms and definitions..."
-          autocomplete="off"
-        />
-      </section>
+      <!-- ── Main ── -->
+      <main class="main-content">
+        <!-- Left column: Add + Search + Export -->
+        <div class="left-col">
+          <!-- Add a Term -->
+          <div class="section-header">
+            <h2 class="section-title">
+              <span class="section-title__number">01</span>
+              Add a Term
+            </h2>
+            <p class="section-desc">
+              Enter a term and its definition to add it to your glossary.
+            </p>
+          </div>
 
-      <section class="export-section">
-        <button id="export-json-btn">⬇ Export JSON</button>
-        <button id="export-csv-btn">⬇ Export CSV</button>
-        <label id="import-label" for="import-input">⬆ Import JSON</label>
-        <input type="file" id="import-input" accept=".json" />
-      </section>
+          <div class="input-panel">
+            <div class="input-group">
+              <label class="input-label" for="term-input">TERM</label>
+              <input
+                type="text"
+                id="term-input"
+                class="text-input"
+                placeholder="e.g. API, Endpoint, Payload"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group">
+              <label class="input-label" for="definition-input"
+                >DEFINITION</label
+              >
+              <textarea
+                id="definition-input"
+                class="def-textarea"
+                placeholder="Write the definition here..."
+                rows="5"
+              ></textarea>
+            </div>
+            <div class="controls-bar">
+              <button id="add-btn" class="btn btn--primary">
+                <span class="btn__icon">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5v14M5 12h14"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+                <span class="btn__label">Add Term</span>
+                <span class="btn__shortcut">⌘↵</span>
+              </button>
+              <div class="controls-divider"></div>
+              <button id="export-json-btn" class="btn btn--ghost">
+                ⬇ JSON
+              </button>
+              <button id="export-csv-btn" class="btn btn--ghost">⬇ CSV</button>
+              <label
+                id="import-label"
+                for="import-input"
+                class="btn btn--import"
+                >⬆ Import</label
+              >
+              <input type="file" id="import-input" accept=".json" />
+            </div>
+          </div>
 
-      <section class="glossary-section">
-        <div id="glossary-list"></div>
-      </section>
-    </main>
+          <!-- Search -->
+          <div class="section-header" style="margin-top: 2rem">
+            <h2 class="section-title">
+              <span class="section-title__number">02</span>
+              Search
+            </h2>
+            <p class="section-desc">
+              Filter terms and definitions in real time.
+            </p>
+          </div>
+          <div class="search-wrapper">
+            <svg
+              class="search-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="7"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M16.5 16.5L21 21"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <input
+              type="text"
+              id="search-input"
+              class="search-input"
+              placeholder="Search terms and definitions..."
+              autocomplete="off"
+            />
+          </div>
 
-    <div id="toast"></div>
+          <!-- Stats bar -->
+          <div class="stats-bar" id="stats-bar" data-state="empty">
+            <div class="stats-bar__empty-state">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M12 8v4M12 16h.01"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              No terms yet — add your first one above.
+            </div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-label">Total Terms</span>
+                <span class="stat-value" id="stat-total">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Showing</span>
+                <span class="stat-value" id="stat-showing">0</span>
+              </div>
+            </div>
+            <div class="stats-bar__score">
+              <span class="score-label">Last Added</span>
+              <span class="score-value" id="stat-last">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: Glossary list -->
+        <div class="right-col">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span class="section-title__number">03</span>
+              Glossary
+            </h2>
+            <p class="section-desc">
+              Your terms, sorted A–Z. Click Edit or Delete to manage entries.
+            </p>
+          </div>
+
+          <div class="results-panel" id="glossary-list" tabindex="0">
+            <div class="results-panel__empty">
+              <svg
+                class="empty-illustration"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 6h16M4 10h10M4 14h12M4 18h8"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <p class="empty-title">Your glossary is empty</p>
+              <p class="empty-subtitle">
+                Add your first term on the left, or
+                <strong>Import JSON</strong> to load an existing glossary.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ── Footer ── -->
+      <footer class="app-footer">
+        <span class="footer-copy">© 2026 GlossaryKit — App B of 26</span>
+        <div class="footer-links">
+          <a href="#" class="footer-link">GitHub</a>
+          <a href="#" class="footer-link">Portfolio</a>
+          <a href="#" class="footer-link">Export</a>
+        </div>
+      </footer>
+    </div>
+    <!-- /app-wrapper -->
+
+    <!-- Toast -->
+    <div id="toast" role="status" aria-live="polite"></div>
 
     <script src="app.js"></script>
   </body>
